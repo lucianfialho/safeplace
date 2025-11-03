@@ -87,7 +87,7 @@ export class IncidentService {
   async findBySourceId(source: string, sourceId: string) {
     return this.prisma.incident.findUnique({
       where: {
-        source_sourceId: {
+        source_source_id: {
           source,
           sourceId,
         },
