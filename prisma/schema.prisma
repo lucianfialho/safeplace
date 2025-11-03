@@ -1,0 +1,202 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+  extensions = [postgis]
+}
+
+model Incident {
+  id String @id @default(cuid())
+
+  // Temporal data
+  occurredAt DateTime @map("occurred_at")
+  scrapedAt  DateTime @default(now()) @map("scraped_at")
+
+  // Location data
+  neighborhood String
+  municipality String
+  state        String
+  latitude     Decimal? @db.Decimal(10, 8)
+  longitude    Decimal? @db.Decimal(11, 8)
+  // PostGIS geography point (added via raw SQL)
+
+  // Incident details
+  incidentType   IncidentType @map("incident_type")
+  severityScore  Int          @map("severity_score")
+  description    String?
+
+  // Metadata
+  source    String @default("OTT")
+  sourceId  String? @map("source_id")
+  verified  Boolean @default(false)
+
+  @@unique([source, sourceId], name: "source_source_id")
+  @@index([occurredAt])
+  @@index([municipality, neighborhood])
+  @@index([incidentType])
+  @@index([state, occurredAt])
+  @@map("incidents")
+}
+
+enum IncidentType {
+  TIROTEIO
+  DISPAROS_OUVIDOS
+  INCENDIO
+  UTILIDADE_PUBLICA
+}
+
+model Property {
+  id String @id @default(cuid())
+
+  // Quinto Andar data
+  qaListingId String @unique @map("qa_listing_id")
+  qaUrl       String @map("qa_url")
+
+  // Location
+  address      String?
+  neighborhood String
+  municipality String
+  state        String
+  latitude     Decimal @db.Decimal(10, 8)
+  longitude    Decimal @db.Decimal(11, 8)
+  // PostGIS geography point (added via raw SQL)
+
+  // Property details
+  propertyType    PropertyType?    @map("property_type")
+  businessContext BusinessContext? @map("business_context")
+  price           Int? // in cents
+  condominiumFee  Int? @map("condominium_fee") // in cents
+  iptu            Int? // in cents
+  totalArea       Int? @map("total_area") // in m²
+
+  // Features (for display)
+  bedroomCount  Int?     @map("bedroom_count")
+  bathroomCount Int?     @map("bathroom_count")
+  suiteCount    Int?     @map("suite_count")
+  parkingSlots  Int?     @map("parking_slots")
+  isFurnished   Boolean  @default(false) @map("is_furnished")
+
+  // Metadata
+  firstAnalyzedAt DateTime @default(now()) @map("first_analyzed_at")
+  lastAnalyzedAt  DateTime @updatedAt @map("last_analyzed_at")
+  analysisCount   Int      @default(1) @map("analysis_count")
+
+  // Relations
+  analyses PropertyAnalysis[]
+
+  @@index([qaListingId])
+  @@index([neighborhood, municipality])
+  @@map("properties")
+}
+
+enum PropertyType {
+  APARTMENT
+  HOUSE
+  STUDIO
+  KITCHENETTE
+  LOFT
+  PENTHOUSE
+}
+
+enum BusinessContext {
+  RENT
+  SALE
+}
+
+model PropertyAnalysis {
+  id         String   @id @default(cuid())
+  propertyId String   @map("property_id")
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  // Score data
+  calculatedAt  DateTime @default(now()) @map("calculated_at")
+  overallScore  Int      @map("overall_score") // 0-100
+
+  // Radius-based scores
+  score500m Int @map("score_500m")
+  score1km  Int @map("score_1km")
+  score2km  Int @map("score_2km")
+
+  // Incident counts by radius and timeframe
+  incidents500m30d  Int @map("incidents_500m_30d")
+  incidents500m90d  Int @map("incidents_500m_90d")
+  incidents500m365d Int @map("incidents_500m_365d")
+  incidents1km30d   Int @map("incidents_1km_30d")
+  incidents1km90d   Int @map("incidents_1km_90d")
+  incidents1km365d  Int @map("incidents_1km_365d")
+  incidents2km30d   Int @map("incidents_2km_30d")
+  incidents2km90d   Int @map("incidents_2km_90d")
+  incidents2km365d  Int @map("incidents_2km_365d")
+
+  // Incident breakdown by type (30 days, 1km)
+  tiroteirosCount Int @map("tiroteios_count")
+  disparosCount   Int @map("disparos_count")
+  incendiosCount  Int @map("incendios_count")
+  outrosCount     Int @map("outros_count")
+
+  // Trend analysis
+  trendDirection  TrendDirection @map("trend_direction")
+  trendPercentage Decimal?       @db.Decimal(5, 2) @map("trend_percentage")
+
+  // Comparative data
+  neighborhoodAvgScore Int? @map("neighborhood_avg_score")
+  cityAvgScore         Int? @map("city_avg_score")
+  percentileRank       Int? @map("percentile_rank")
+
+  // Metadata
+  requestSource String? @map("request_source")
+  userAgent     String? @map("user_agent")
+
+  @@index([propertyId, calculatedAt])
+  @@index([calculatedAt])
+  @@map("property_analyses")
+}
+
+enum TrendDirection {
+  IMPROVING
+  STABLE
+  WORSENING
+}
+
+model ScraperLog {
+  id String @id @default(cuid())
+
+  // Execution data
+  startedAt   DateTime  @default(now()) @map("started_at")
+  completedAt DateTime? @map("completed_at")
+  durationMs  Int?      @map("duration_ms")
+  status      ScraperStatus
+
+  // Results
+  recordsFound     Int @default(0) @map("records_found")
+  recordsNew       Int @default(0) @map("records_new")
+  recordsDuplicate Int @default(0) @map("records_duplicate")
+  recordsFailed    Int @default(0) @map("records_failed")
+
+  // Error handling
+  errorMessage String? @map("error_message")
+  errorStack   String? @db.Text @map("error_stack")
+
+  // Metadata
+  scraperVersion String @default("1.0.0") @map("scraper_version")
+  environment    String
+
+  @@index([startedAt])
+  @@index([status])
+  @@map("scraper_logs")
+}
+
+enum ScraperStatus {
+  RUNNING
+  SUCCESS
+  PARTIAL_SUCCESS
+  FAILED
+}
