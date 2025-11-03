@@ -11,7 +11,9 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
-    "scrape": "tsx src/jobs/scrape-ott-cron.ts"
+    "scrape": "tsx src/jobs/scrape-ott-cron.ts",
+    "backfill": "tsx src/jobs/backfill-ott.ts",
+    "import:instagram": "tsx src/jobs/import-instagram.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",

@@ -129,6 +129,8 @@ export class OttParser {
       incendio: IncidentType.INCENDIO,
       'utilidade pública': IncidentType.UTILIDADE_PUBLICA,
       'utilidade publica': IncidentType.UTILIDADE_PUBLICA,
+      'operação policial': IncidentType.OPERACAO_POLICIAL,
+      'operacao policial': IncidentType.OPERACAO_POLICIAL,
     };
 
     return mapping[normalized] || null;

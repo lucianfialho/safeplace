@@ -51,6 +51,7 @@ enum IncidentType {
   DISPAROS_OUVIDOS
   INCENDIO
   UTILIDADE_PUBLICA
+  OPERACAO_POLICIAL
 }
 
 model Property {

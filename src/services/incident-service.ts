@@ -137,6 +137,7 @@ export class IncidentService {
       [IncidentType.DISPAROS_OUVIDOS]: 5,
       [IncidentType.INCENDIO]: 6,
       [IncidentType.UTILIDADE_PUBLICA]: 2,
+      [IncidentType.OPERACAO_POLICIAL]: 7,
     };
 
     return scores[type] || 5;

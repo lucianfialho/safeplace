@@ -1,0 +1,71 @@
+# Exemplo de Arquivo de Legendas do Instagram
+# Use este formato quando coletar legendas com agente de IA
+# Separe cada legenda com ---- (4 hífens)
+
+OTT 360 INFORMA:
+Tiroteio - 15/10/25 06:33
+Pavuna - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Disparos Ouvidos - 16/10/25 14:22
+Copacabana - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Operação Policial - 17/10/25 10:15
+Complexo do Alemão - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Tiroteio - 18/10/25 03:45
+Cidade de Deus - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Incêndio - 19/10/25 11:30
+Centro - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Disparos Ouvidos - 20/10/25 22:15
+Rocinha - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Tiroteio - 21/10/25 01:50
+Maré - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Utilidade Pública - 22/10/25 09:00
+Botafogo - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Operação Policial - 23/10/25 15:20
+Jacarezinho - Rio de Janeiro RJ
+
+----
+
+OTT 360 INFORMA:
+Tiroteio - 24/10/25 20:40
+Bangu - Rio de Janeiro RJ
+
+----
+
+# Continue adicionando mais legendas seguindo este padrão
+# Cada legenda tem exatamente 3 linhas:
+# 1. OTT 360 INFORMA:
+# 2. Tipo - DD/MM/YY HH:MM
+# 3. Bairro - Município UF
+#
+# Separe com ---- em uma linha sozinha
