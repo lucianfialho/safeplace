@@ -92,8 +92,8 @@ export async function POST(request: NextRequest) {
     console.log(`📊 Calculating safety score...`);
     const scoreEngine = new SafetyScoreEngine(prisma);
     const safetyScore = await scoreEngine.calculateScore(
-      propertyData.latitude,
-      propertyData.longitude,
+      Number(propertyData.latitude),
+      Number(propertyData.longitude),
       propertyData.neighborhood,
       propertyData.municipality
     );
