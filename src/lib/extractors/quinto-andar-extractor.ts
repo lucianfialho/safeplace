@@ -105,7 +105,7 @@ export class QuintoAndarExtractor {
   ): PropertyData | null {
     try {
       const match = html.match(
-        /<script id="__NEXT_DATA__" type="application\/json">(.*?)<\/script>/s
+        /<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/
       );
       if (!match) {
         console.error('__NEXT_DATA__ script not found');
