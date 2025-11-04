@@ -13,7 +13,9 @@
     "db:studio": "prisma studio",
     "scrape": "tsx src/jobs/scrape-ott-cron.ts",
     "backfill": "tsx src/jobs/backfill-ott.ts",
-    "import:instagram": "tsx src/jobs/import-instagram.ts"
+    "import:instagram": "tsx src/jobs/import-instagram.ts",
+    "validate:scraped": "tsx src/jobs/validate-scraped-data.ts",
+    "import:json": "tsx src/jobs/import-from-json.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",

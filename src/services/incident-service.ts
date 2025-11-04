@@ -138,6 +138,13 @@ export class IncidentService {
       [IncidentType.INCENDIO]: 6,
       [IncidentType.UTILIDADE_PUBLICA]: 2,
       [IncidentType.OPERACAO_POLICIAL]: 7,
+      [IncidentType.ASSALTO]: 8,
+      [IncidentType.ARRASTAO]: 9,
+      [IncidentType.MANIFESTACAO]: 4,
+      [IncidentType.TOQUE_DE_RECOLHER]: 8,
+      [IncidentType.PERSEGUICAO_POLICIAL]: 6,
+      [IncidentType.ROUBO_DE_CARGA]: 7,
+      [IncidentType.CARROS_NA_CONTRAMAO]: 6,
     };
 
     return scores[type] || 5;

@@ -135,6 +135,17 @@ export class InstagramParser {
       'utilidade publica': IncidentType.UTILIDADE_PUBLICA,
       'operação policial': IncidentType.OPERACAO_POLICIAL,
       'operacao policial': IncidentType.OPERACAO_POLICIAL,
+      assalto: IncidentType.ASSALTO,
+      arrastão: IncidentType.ARRASTAO,
+      arrastao: IncidentType.ARRASTAO,
+      manifestação: IncidentType.MANIFESTACAO,
+      manifestacao: IncidentType.MANIFESTACAO,
+      'toque de recolher': IncidentType.TOQUE_DE_RECOLHER,
+      'perseguição policial': IncidentType.PERSEGUICAO_POLICIAL,
+      'perseguicao policial': IncidentType.PERSEGUICAO_POLICIAL,
+      'roubo de carga': IncidentType.ROUBO_DE_CARGA,
+      'carros na contramão': IncidentType.CARROS_NA_CONTRAMAO,
+      'carros na contramao': IncidentType.CARROS_NA_CONTRAMAO,
     };
 
     return mapping[normalized] || null;
