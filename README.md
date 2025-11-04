@@ -118,28 +118,59 @@ ott/
 ### ✅ Fase 1: Fundação (CONCLUÍDA)
 - [x] Setup Next.js 15 + TypeScript
 - [x] Configuração PostgreSQL + PostGIS
-- [x] Schema Prisma
+- [x] Schema Prisma com 12 tipos de incidentes
 - [x] Estrutura de pastas
 
-### 🚧 Fase 2: Coleta de Dados (EM ANDAMENTO)
-- [ ] Implementar OTT Scraper
-- [ ] Configurar cron job
-- [ ] Coletar dados iniciais (7 dias)
+### ✅ Fase 2: Coleta de Dados (CONCLUÍDA)
+- [x] Implementar OTT Scraper (Instagram)
+- [x] Parser de legendas do Instagram
+- [x] Sistema de import de arquivos JSON
+- [x] Configurar Vercel Cron Job
+- [x] 789 incidentes coletados
 
-### 📅 Fase 3: Extração e Scoring
-- [ ] Quinto Andar Extractor
-- [ ] Safety Score Engine
-- [ ] API Routes
+### ✅ Fase 3: Scoring e APIs (CONCLUÍDA)
+- [x] Safety Score Engine (ponderado por raio e tempo)
+- [x] API Routes completas
+  - [x] `/api/health` - Health check geral
+  - [x] `/api/stats` - Estatísticas gerais
+  - [x] `/api/score` - Cálculo de safety score
+  - [x] `/api/incidents/nearby` - Incidentes próximos
+  - [x] `/api/compare` - Comparar múltiplas localizações
+  - [x] `/api/compare-nearby` - Comparar com bairros vizinhos
+  - [x] `/api/analyze` - Análise de propriedade do Quinto Andar
+  - [x] `/api/analyze-manual` - Análise manual por endereço
+- [x] Quinto Andar Extractor
 
-### 📅 Fase 4: Interface
-- [ ] Landing Page
-- [ ] Analysis Page
-- [ ] Visualizações (mapas, gráficos)
+### ✅ Fase 4: Monitoramento (CONCLUÍDA)
+- [x] Sistema de logs de cron jobs
+- [x] Health check de cron (`/api/health/cron`)
+- [x] Endpoint de logs paginados (`/api/cron/logs`)
+- [x] Dashboard de monitoramento (`/cron-monitor`)
+- [x] Sistema de alertas (console, webhook, email)
+- [x] Documentação completa (ENV_VARS.md, ALERTS_CONFIG.md)
 
-### 📅 Fase 5: Deploy
-- [ ] Deploy Vercel
-- [ ] Configurar banco em produção (Neon/Supabase)
-- [ ] Monitoramento
+### ✅ Fase 5: Deploy (CONCLUÍDA)
+- [x] Deploy Vercel em produção
+- [x] Banco de dados Neon PostgreSQL
+- [x] Variáveis de ambiente configuradas
+- [x] Build passando sem erros
+- [x] Aplicação funcionando: https://safeplace-eta.vercel.app/
+
+### 🚧 Fase 6: Interface do Usuário (PRÓXIMA)
+- [ ] Landing Page com busca de imóveis
+- [ ] Analysis Page com visualizações
+- [ ] Mapa interativo com incidentes
+- [ ] Gráficos de tendências
+- [ ] Comparação visual de bairros
+- [ ] Exportar relatórios PDF
+
+### 📅 Fase 7: Melhorias e Otimizações
+- [ ] Cache de cálculos de score
+- [ ] Otimização de queries PostGIS
+- [ ] Rate limiting nas APIs
+- [ ] Testes automatizados
+- [ ] CI/CD pipeline
+- [ ] SEO e meta tags
 
 ## 🔧 Scripts Disponíveis
 
