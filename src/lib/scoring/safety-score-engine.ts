@@ -92,47 +92,47 @@ export class SafetyScoreEngine {
 export function getScoreBadge(score: number) {
   if (score >= 90) {
     return {
-      label: 'Excellent',
+      label: 'Excelente',
       color: 'green',
-      description: 'Very few security incidents in this area',
+      description: 'Área muito segura, com pouquíssimos incidentes de segurança',
     };
   }
 
   if (score >= 75) {
     return {
-      label: 'Good',
+      label: 'Bom',
       color: 'lightgreen',
-      description: 'Below average incident rate',
+      description: 'Área segura, com taxa de incidentes abaixo da média da cidade',
     };
   }
 
   if (score >= 60) {
     return {
-      label: 'Fair',
+      label: 'Regular',
       color: 'yellow',
-      description: 'Average incident rate for the city',
+      description: 'Segurança na média da cidade, requer atenção básica',
     };
   }
 
   if (score >= 40) {
     return {
-      label: 'Moderate',
+      label: 'Moderado',
       color: 'orange',
-      description: 'Above average incident rate',
+      description: 'Taxa de incidentes acima da média, requer atenção redobrada',
     };
   }
 
   if (score >= 20) {
     return {
-      label: 'Poor',
+      label: 'Ruim',
       color: 'red',
-      description: 'Significantly higher incident rate',
+      description: 'Alta taxa de incidentes de segurança na região',
     };
   }
 
   return {
-    label: 'Critical',
+    label: 'Crítico',
     color: 'darkred',
-    description: 'Extremely high incident rate - exercise caution',
+    description: 'Taxa muito alta de incidentes - área de alto risco, tenha bastante cuidado',
   };
 }

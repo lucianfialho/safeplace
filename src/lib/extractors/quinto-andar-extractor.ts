@@ -114,35 +114,36 @@ export class QuintoAndarExtractor {
 
       const nextData = JSON.parse(match[1]);
 
-      // Navigate through Next.js data structure to find listing
-      const listing = this.findListingInNextData(nextData);
+      // Navigate to the correct path: props.pageProps.initialState.house.houseInfo
+      const houseInfo = nextData?.props?.pageProps?.initialState?.house?.houseInfo;
 
-      if (!listing) {
-        console.error('Listing data not found in __NEXT_DATA__');
+      if (!houseInfo) {
+        console.error('houseInfo not found in expected path');
         return null;
       }
 
-      // Map to PropertyData
+      // Map to PropertyData using the correct structure
       return {
         qaListingId: listingId,
         qaUrl: url,
-        latitude: listing.latitude,
-        longitude: listing.longitude,
-        address: listing.address,
-        neighborhood: listing.neighborhood || listing.regionName,
-        municipality: listing.city,
-        state: listing.state,
-        price: listing.rent ? this.toCents(listing.rent) : undefined,
-        condominiumFee: listing.condo ? this.toCents(listing.condo) : undefined,
-        iptu: listing.iptu ? this.toCents(listing.iptu) : undefined,
-        totalArea: listing.area,
-        bedroomCount: listing.bedrooms,
-        bathroomCount: listing.bathrooms,
-        suiteCount: listing.suites,
-        parkingSlots: listing.parkingSpaces,
-        isFurnished: listing.furnished,
-        propertyType: this.mapPropertyType(listing.type),
-        businessContext: this.mapBusinessContext(listing.rent, listing.salePrice),
+        latitude: houseInfo.address?.lat,
+        longitude: houseInfo.address?.lng,
+        address: houseInfo.address?.street,
+        neighborhood: houseInfo.address?.neighborhood,
+        municipality: houseInfo.address?.city,
+        state: houseInfo.address?.stateAcronym,
+        price: houseInfo.rentPrice ? this.toCents(houseInfo.rentPrice) : undefined,
+        condominiumFee: houseInfo.condoPrice ? this.toCents(houseInfo.condoPrice) : undefined,
+        iptu: houseInfo.iptuPrice ? this.toCents(houseInfo.iptuPrice) : undefined,
+        totalArea: houseInfo.area,
+        bedroomCount: houseInfo.bedrooms,
+        bathroomCount: houseInfo.bathrooms,
+        suiteCount: houseInfo.suites,
+        parkingSlots: houseInfo.parkingSpaces,
+        isFurnished: houseInfo.furnished || false,
+        propertyType: this.mapPropertyType(houseInfo.type),
+        businessContext: this.mapBusinessContext(houseInfo.rentPrice, houseInfo.salePrice),
+        placesNearby: houseInfo.placesNearby || undefined,
       };
     } catch (error) {
       console.error('Failed to parse __NEXT_DATA__:', error);
@@ -150,49 +151,6 @@ export class QuintoAndarExtractor {
     }
   }
 
-  /**
-   * Recursively search for listing data in Next.js data
-   */
-  private findListingInNextData(obj: any, depth = 0): any {
-    if (!obj || typeof obj !== 'object' || depth > 10) return null;
-
-    // Check if current object looks like a listing
-    if (this.isListingObject(obj)) {
-      return obj;
-    }
-
-    // Search in common keys first
-    const priorityKeys = ['listing', 'property', 'house', 'apartment', 'pageProps', 'initialData'];
-    for (const key of priorityKeys) {
-      if (obj[key]) {
-        const result = this.findListingInNextData(obj[key], depth + 1);
-        if (result) return result;
-      }
-    }
-
-    // Recursively search all other keys
-    for (const key of Object.keys(obj)) {
-      if (!priorityKeys.includes(key)) {
-        const result = this.findListingInNextData(obj[key], depth + 1);
-        if (result) return result;
-      }
-    }
-
-    return null;
-  }
-
-  /**
-   * Check if object looks like a property listing
-   */
-  private isListingObject(obj: any): boolean {
-    return (
-      obj &&
-      typeof obj === 'object' &&
-      typeof obj.latitude === 'number' &&
-      typeof obj.longitude === 'number' &&
-      (obj.neighborhood || obj.regionName || obj.city)
-    );
-  }
 
   /**
    * Convert value to cents

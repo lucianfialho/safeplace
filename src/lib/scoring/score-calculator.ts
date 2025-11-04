@@ -27,34 +27,26 @@ export class ScoreCalculator {
 
   /**
    * Calculate overall safety score
-   * Considers all radii and timeframes with appropriate weights
+   * Uses weighted average of radius scores to avoid counting incidents multiple times
    */
   calculate(incidents: AggregatedIncidents): number {
-    let totalDeduction = 0;
+    // Calculate individual scores for each radius
+    const score500m = this.calculateForRadius(incidents.radius500m);
+    const score1km = this.calculateForRadius(incidents.radius1km);
+    const score2km = this.calculateForRadius(incidents.radius2km);
 
-    // Calculate weighted deduction for each radius
-    const radii = [
-      { data: incidents.radius500m, radius: 500 },
-      { data: incidents.radius1km, radius: 1000 },
-      { data: incidents.radius2km, radius: 2000 },
-    ];
+    // Use weighted average based on radius importance
+    // Closer incidents matter more, but we don't want to count them multiple times
+    const weightedScore =
+      score500m * this.RADIUS_WEIGHTS[500] +
+      score1km * this.RADIUS_WEIGHTS[1000] +
+      score2km * this.RADIUS_WEIGHTS[2000];
 
-    for (const { data, radius } of radii) {
-      const radiusWeight = this.RADIUS_WEIGHTS[radius];
+    // Normalize by total weights
+    const totalWeight =
+      this.RADIUS_WEIGHTS[500] + this.RADIUS_WEIGHTS[1000] + this.RADIUS_WEIGHTS[2000];
 
-      // Weight by timeframe
-      const deduction =
-        (data.last30Days.weightedTotal * this.TIMEFRAME_WEIGHTS[30] +
-          data.last90Days.weightedTotal * this.TIMEFRAME_WEIGHTS[90] +
-          data.last365Days.weightedTotal * this.TIMEFRAME_WEIGHTS[365]) *
-        radiusWeight *
-        this.POINTS_PER_INCIDENT;
-
-      totalDeduction += deduction;
-    }
-
-    // Calculate final score (bounded between 0 and 100)
-    const score = Math.max(0, Math.min(100, this.BASE_SCORE - totalDeduction));
+    const score = weightedScore / totalWeight;
 
     return Math.round(score);
   }

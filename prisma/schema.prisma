@@ -92,6 +92,9 @@ model Property {
   parkingSlots  Int?     @map("parking_slots")
   isFurnished   Boolean  @default(false) @map("is_furnished")
 
+  // Places nearby (schools, shopping, parks, etc)
+  placesNearby Json? @map("places_nearby")
+
   // Metadata
   firstAnalyzedAt DateTime @default(now()) @map("first_analyzed_at")
   lastAnalyzedAt  DateTime @updatedAt @map("last_analyzed_at")

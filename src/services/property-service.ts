@@ -22,6 +22,9 @@ export class PropertyService {
    * Upsert property data with PostGIS location
    */
   async upsert(data: PropertyData) {
+    // Serialize placesNearby to JSON string for raw SQL
+    const placesNearbyJson = data.placesNearby ? JSON.stringify(data.placesNearby) : null;
+
     // Use raw SQL for PostGIS and ENUM handling
     await this.prisma.$executeRaw`
       INSERT INTO properties (
@@ -46,6 +49,7 @@ export class PropertyService {
         suite_count,
         parking_slots,
         is_furnished,
+        places_nearby,
         first_analyzed_at,
         last_analyzed_at,
         analysis_count
@@ -71,6 +75,7 @@ export class PropertyService {
         ${data.suiteCount},
         ${data.parkingSlots},
         ${data.isFurnished},
+        ${placesNearbyJson}::jsonb,
         NOW(),
         NOW(),
         1
@@ -83,7 +88,8 @@ export class PropertyService {
         location = EXCLUDED.location,
         price = EXCLUDED.price,
         condominium_fee = EXCLUDED.condominium_fee,
-        iptu = EXCLUDED.iptu
+        iptu = EXCLUDED.iptu,
+        places_nearby = EXCLUDED.places_nearby
     `;
 
     // Return the upserted property

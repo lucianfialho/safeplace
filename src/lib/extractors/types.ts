@@ -24,6 +24,11 @@ export interface PropertyData {
   suiteCount?: number;
   parkingSlots?: number;
   isFurnished?: boolean;
+  placesNearby?: Array<{
+    name: string;
+    type: string;
+    slug: string;
+  }>;
 }
 
 export class ExtractionError extends Error {
