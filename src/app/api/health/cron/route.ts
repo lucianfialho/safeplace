@@ -42,7 +42,7 @@ export async function GET() {
       : false;
 
     // Calculate stats from last 24 hours
-    const failures = last24HoursLogs.filter((log) => log.status === 'FAILURE').length;
+    const failures = last24HoursLogs.filter((log) => log.status === 'FAILED').length;
     const successRate =
       last24HoursLogs.length > 0
         ? ((last24HoursLogs.length - failures) / last24HoursLogs.length) * 100

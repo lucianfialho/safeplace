@@ -236,7 +236,7 @@ export function createCronHealthAlerts(health: {
   }
 
   // Low: Last execution failed
-  if (health.checks.lastExecution?.status === 'FAILURE') {
+  if (health.checks.lastExecution?.status === 'FAILED') {
     alerts.push({
       severity: 'low',
       title: 'Última Execução Falhou',

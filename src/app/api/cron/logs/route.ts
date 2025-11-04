@@ -9,12 +9,12 @@ import { prisma } from '@/lib/prisma';
  * Query params:
  * - page: Page number (default: 1)
  * - limit: Items per page (default: 20, max: 100)
- * - status: Filter by status (SUCCESS, FAILURE, PENDING)
+ * - status: Filter by status (SUCCESS, FAILED, RUNNING, PARTIAL_SUCCESS)
  * - since: Filter logs since date (ISO string)
  * - until: Filter logs until date (ISO string)
  *
  * Example:
- * /api/cron/logs?page=1&limit=20&status=FAILURE&since=2025-11-01
+ * /api/cron/logs?page=1&limit=20&status=FAILED&since=2025-11-01
  */
 export async function GET(request: NextRequest) {
   try {
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     // Build where clause
     const where: any = {};
 
-    if (status && ['SUCCESS', 'FAILURE', 'PENDING'].includes(status)) {
+    if (status && ['SUCCESS', 'FAILED', 'RUNNING', 'PARTIAL_SUCCESS'].includes(status)) {
       where.status = status;
     }
 

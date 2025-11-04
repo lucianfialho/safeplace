@@ -34,7 +34,7 @@ interface ScraperLog {
   startedAt: string;
   completedAt: string | null;
   durationMs: number | null;
-  status: 'SUCCESS' | 'FAILURE' | 'PENDING';
+  status: 'SUCCESS' | 'FAILED' | 'RUNNING' | 'PARTIAL_SUCCESS';
   recordsFound: number;
   recordsNew: number;
   recordsDuplicate: number;
@@ -122,10 +122,12 @@ export default function CronMonitorPage() {
         return 'bg-red-100 text-red-800 border-red-300';
       case 'SUCCESS':
         return 'bg-green-100 text-green-700';
-      case 'FAILURE':
+      case 'FAILED':
         return 'bg-red-100 text-red-700';
-      case 'PENDING':
-        return 'bg-gray-100 text-gray-700';
+      case 'PARTIAL_SUCCESS':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'RUNNING':
+        return 'bg-blue-100 text-blue-700';
       default:
         return 'bg-gray-100 text-gray-700';
     }
@@ -304,11 +306,11 @@ export default function CronMonitorPage() {
                 </button>
                 <button
                   onClick={() => {
-                    setStatusFilter('FAILURE');
+                    setStatusFilter('FAILED');
                     setPage(1);
                   }}
                   className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
-                    statusFilter === 'FAILURE'
+                    statusFilter === 'FAILED'
                       ? 'bg-red-600 text-white'
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
