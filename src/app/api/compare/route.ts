@@ -100,14 +100,18 @@ export async function GET(request: NextRequest) {
           municipality,
           coordinates: { lat, lng },
         },
-        score: score.score,
+        overallScore: score.overallScore,
+        score500m: score.score500m,
+        score1km: score.score1km,
+        score2km: score.score2km,
         incidents: score.incidents,
         trend: score.trend,
+        comparison: score.comparison,
       });
     }
 
     // Sort by overall score (best to worst)
-    results.sort((a, b) => b.score.overallScore - a.score.overallScore);
+    results.sort((a, b) => b.overallScore - a.overallScore);
 
     // Add rankings
     const rankedResults = results.map((result, index) => ({
@@ -116,7 +120,7 @@ export async function GET(request: NextRequest) {
     }));
 
     // Calculate summary stats
-    const scores = results.map((r) => r.score.overallScore);
+    const scores = results.map((r) => r.overallScore);
     const avgScore = scores.reduce((sum, s) => sum + s, 0) / scores.length;
     const maxScore = Math.max(...scores);
     const minScore = Math.min(...scores);
