@@ -1,5 +1,4 @@
-import { IncidentType } from '@prisma/client';
-import { RawIncident } from './types';
+import { IncidentType, RawIncident } from './types';
 
 /**
  * Parses OTT Instagram post captions to extract incident data
