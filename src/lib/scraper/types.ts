@@ -1,9 +1,6 @@
-export enum IncidentType {
-  TIROTEIO = 'TIROTEIO',
-  DISPAROS_OUVIDOS = 'DISPAROS_OUVIDOS',
-  INCENDIO = 'INCENDIO',
-  UTILIDADE_PUBLICA = 'UTILIDADE_PUBLICA',
-}
+import { IncidentType } from '@prisma/client';
+
+export { IncidentType };
 
 export interface RawIncident {
   occurredAt: Date;
