@@ -121,7 +121,6 @@ export async function POST(request: NextRequest) {
         outrosCount: safetyScore.incidents.outrosCount,
         trendDirection: safetyScore.trend.direction,
         trendPercentage: safetyScore.trend.percentage,
-        trendConfidence: safetyScore.trend.confidence,
         neighborhoodAvgScore: safetyScore.comparison.neighborhoodAvgScore,
         cityAvgScore: safetyScore.comparison.cityAvgScore,
         percentileRank: safetyScore.comparison.percentileRank,
